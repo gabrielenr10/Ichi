@@ -1,0 +1,132 @@
+---
+interface Props {
+    images: ImageMetadata[]
+}
+
+const { images } = Astro.props
+const IMAGES_PER_SLIDE = 6
+const slides = Array.from({ length: Math.ceil(images.length / IMAGES_PER_SLIDE) }, (_, i) =>
+    images.slice(i * IMAGES_PER_SLIDE, (i + 1) * IMAGES_PER_SLIDE)
+)
+---
+
+<div class="slideshow max-w-7xl mx-auto px-4" data-slides={slides.length}>
+    <div class="relative overflow-hidden">
+        <div
+            class="slides-wrapper flex transition-transform duration-500 ease-out"
+            style={`width: ${slides.length * 100}%`}
+        >
+            {
+                slides.map((slideImages) => (
+                    <div
+                        class="slide shrink-0 grid grid-rows-2 grid-cols-3 gap-6"
+                        style={`flex: 0 0 calc(100% / ${slides.length})`}
+                    >
+                        {slideImages.map((image: ImageMetadata, index: number) => (
+                            <img
+                                src={image.src}
+                                alt={`Resultado ${index + 1}`}
+                                width={image.width}
+                                height={image.height}
+                                class="w-full h-full object-cover"
+                            />
+                        ))}
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+
+    <div class={`flex items-center justify-center gap-4 mt-6 ${slides.length <= 1 ? "hidden" : ""}`}>
+        <button
+            type="button"
+            class="slideshow-prev w-6 h-6 text-primary disabled:opacity-40 disabled:cursor-not-allowed"
+            aria-label="Anterior"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path d="M15 18l-6-6 6-6"></path>
+            </svg>
+        </button>
+        <div class="slideshow-dots flex gap-2" role="tablist" aria-label="Seleccionar slide">
+            {
+                slides.map((_, i) => (
+                    <button
+                        type="button"
+                        class="slideshow-dot w-2.5 h-2.5 rounded-full border-2 border-primary transition-all duration-300 aria-selected:border-[#888787] aria-selected:scale-125"
+                        role="tab"
+                        aria-selected={i === 0}
+                        aria-label={`Ir al slide ${i + 1}`}
+                    />
+                ))
+            }
+        </div>
+        <button
+            type="button"
+            class="slideshow-next text-primary disabled:opacity-40 disabled:cursor-not-allowed"
+            aria-label="Siguiente"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path d="M9 18l6-6-6-6"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<script>
+    function initSlideshow(container: HTMLElement) {
+        const slidesCount = parseInt(container.dataset.slides ?? "1", 10)
+        const wrapper = container.querySelector(".slides-wrapper") as HTMLElement
+        const prevBtn = container.querySelector(".slideshow-prev") as HTMLButtonElement
+        const nextBtn = container.querySelector(".slideshow-next") as HTMLButtonElement
+        const dots = container.querySelectorAll(".slideshow-dot")
+
+        if (!wrapper || slidesCount <= 1) return
+
+        let currentSlide = 0
+
+        function goToSlide(index: number) {
+            currentSlide = Math.max(0, Math.min(index, slidesCount - 1))
+            const offset = (currentSlide / slidesCount) * 100
+            wrapper.style.transform = `translateX(-${offset}%)`
+            updateControls()
+        }
+
+        function updateControls() {
+            prevBtn?.toggleAttribute("disabled", currentSlide === 0)
+            nextBtn?.toggleAttribute("disabled", currentSlide === slidesCount - 1)
+            dots.forEach((dot, i) => {
+                dot.setAttribute("aria-selected", String(i === currentSlide))
+            })
+        }
+
+        prevBtn?.addEventListener("click", () => goToSlide(currentSlide - 1))
+        nextBtn?.addEventListener("click", () => goToSlide(currentSlide + 1))
+        dots.forEach((dot, i) => {
+            dot.addEventListener("click", () => goToSlide(i))
+        })
+
+        updateControls()
+    }
+
+    document.querySelectorAll(".slideshow").forEach((el) => initSlideshow(el as HTMLElement))
+</script>

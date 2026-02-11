@@ -1,0 +1,19 @@
+---
+import demo from "../assets/results/demo_image.png"
+import Button from "./ui/Button.astro"
+import Slideshow from "./ui/Slideshow.astro"
+
+const images = [demo, demo, demo, demo, demo, demo, demo, demo, demo, demo, demo, demo, demo, demo]
+---
+
+<section id="results" class="py-27 px-8 bg-contrast-light text-center">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="mb-6">Resultados de nuestros clientes</h1>
+        <p class="text-2xl mb-12">
+            Todos los planes pueden contratarse a <span class="font-bold">3, 6 o 12 meses</span>. Empezamos con
+            diagnóstico y entramos en el nivel que encaje con tu situación.
+        </p>
+    </div>
+    <Slideshow images={images} />
+    <Button class="mx-auto mt-12">Agenda una cita</Button>
+</section>
