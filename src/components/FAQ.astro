@@ -1,0 +1,102 @@
+---
+import chevronUp from "../assets/chevron_up.svg"
+import chevronDown from "../assets/chevron_down.svg"
+
+const faqs = [
+    {
+        question: "¿Cómo puedo empezar?",
+        answer: "Simplemente elige el plan que mejor se adapte a tus objetivos y completa el formulario de inscripción. Te contactaremos en menos de 24 horas para coordinar tu primera sesión.",
+    },
+    {
+        question: "¿Puedo cambiar de plan más adelante?",
+        answer: "Sí, puedes actualizar o modificar tu plan en cualquier momento. Te guiaremos para que la transición sea fluida y sin interrupciones.",
+    },
+    {
+        question: "¿Qué necesito para las sesiones?",
+        answer: "Solo necesitas ropa cómoda, espacio para moverte y ganas de dar lo mejor de ti. No hace falta equipo especial para comenzar.",
+    },
+    {
+        question: "¿Hay garantía de satisfacción?",
+        answer: "Si en las primeras dos semanas no te convences, te devolvemos el importe íntegro sin preguntas. Queremos que confíes en el proceso.",
+    },
+]
+---
+
+<section id="faq" class="py-27 px-8">
+    <h1 class="text-center mb-9">¿Tienes dudas?</h1>
+
+    <div class="flex flex-col justify-center max-w-7xl mx-auto">
+        {
+            faqs.map((faq, index) => (
+                <details class="border-b border-(--color-primary-light) pt-4 pb-8 cursor-pointer">
+                    <summary class="flex justify-between items-center">
+                        <h4 class="">{faq.question}</h4>
+                        <span class="chevron-container bg-(--color-primary-light) rounded-sm p-2">
+                            <img
+                                src={chevronDown.src}
+                                alt="Toggle answer"
+                                class="chevron-icon w-4 h-4"
+                                data-chevron-down={chevronDown.src}
+                                data-chevron-up={chevronUp.src}
+                            />
+                        </span>
+                    </summary>
+                    <div class="answer-content transition-[max-height] duration-300 mt-4">
+                        <div class="answer-inner transityion-opacity duration-300">
+                            <p>{faq.answer}</p>
+                        </div>
+                    </div>
+                </details>
+            ))
+        }
+    </div>
+</section>
+
+<script>
+    function initFAQToggles() {
+        const detailsElements = document.querySelectorAll("details")
+
+        detailsElements.forEach((details) => {
+            const summary = details.querySelector("summary")
+            const icon = details.querySelector(".chevron-icon") as HTMLImageElement
+            const answerContent = details.querySelector(".answer-content") as HTMLElement
+            const answerInner = details.querySelector(".answer-inner") as HTMLElement
+
+            if (!summary || !icon || !answerContent || !answerInner) return
+
+            const chevronDown = icon.dataset.chevronDown
+            const chevronUp = icon.dataset.chevronUp
+
+            // Set initial max-height to 0 for closed state
+            if (!details.open) {
+                answerContent.style.maxHeight = "0px"
+                answerInner.style.opacity = "0"
+            } else {
+                answerContent.style.maxHeight = answerInner.scrollHeight + "px"
+                answerInner.style.opacity = "1"
+                icon.src = chevronUp || ""
+            }
+
+            details.addEventListener("toggle", () => {
+                if (details.open) {
+                    // Opening animation
+                    icon.src = chevronUp || ""
+                    answerContent.style.maxHeight = answerInner.scrollHeight + "px"
+                    answerInner.style.opacity = "1"
+                } else {
+                    // Closing animation
+                    icon.src = chevronDown || ""
+                    answerContent.style.maxHeight = "0px"
+                    answerInner.style.opacity = "0"
+                }
+            })
+        })
+    }
+
+    // Initialize on page load
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initFAQToggles)
+    } else {
+        initFAQToggles()
+    }
+</script>

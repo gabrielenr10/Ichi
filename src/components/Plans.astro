@@ -1,0 +1,66 @@
+---
+const plans = [
+    {
+        name: "plan 3 meses - trimestral",
+        price: undefined,
+        description: "Empieza a desinflamarte, perder grasa y activar músculo",
+        features: [
+            "Reducir inflamación y retención",
+            "Empezar a perder grasa sin pasar hambre",
+            "Introducir el entrenamiento de fuerza de forma segura",
+            "Perder el miedo a comer y entrenar",
+        ],
+        closing: "Perfecto para arrancar el cambio y sentar las bases.",
+    },
+    {
+        name: "plan 6 meses - semestral",
+        price: undefined,
+        description: "Pierde grasa, mejora celulitis y construye un cuerpo más fuerte",
+        features: [
+            "Resultados visibles y estables",
+            "Ganar músculo mientras bajas % graso",
+            "Verte más firme, definida y femenina",
+            "Integrar fuerza y alimentación en tu vida real",
+        ],
+        closing: "Aquí empiezas a verte diferente en el espejo.",
+    },
+    {
+        name: "plan 12 meses - anual",
+        price: undefined,
+        description: "Cuerpazo, fuerza y educación para toda la vida",
+        features: [
+            "Un cambio físico completo y sostenible",
+            "Construir músculo de verdad",
+            "Salir del bucle dieta–abandono",
+            "Entrenar fuerte sin miedo y comer con criterio",
+        ],
+        closing: "No es solo cambiar el cuerpo.Es convertirte en tu mejor versión.",
+    },
+]
+---
+
+<section id="planes" class="pt-14 pb-27 text-center bg-contrast-dark">
+    <div class="flex gap-14 justify-center mt-9">
+        {
+            plans.map((plan) => (
+                <div class="w-87 flex flex-col items-start border border-(--color-primary-light) rounded-md p-6 text-left">
+                    <h3 class="uppercase text-primary mb-2">{plan.name}</h3>
+                    <p class="text-2xl mb-2">{plan.description}</p>
+                    <p>Ideal si quieres:</p>
+                    <ul>
+                        {plan.features.map((feature) => (
+                            <li>
+                                <span class="text-primary">✓</span>
+                                {feature}
+                            </li>
+                        ))}
+                    </ul>
+                    <p class="mt-2">{plan.closing}</p>
+                    <button class="border-2 border-primary rounded-3xl px-4 py-3 mt-4 text-primary font-bold">
+                        Saber más
+                    </button>
+                </div>
+            ))
+        }
+    </div>
+</section>

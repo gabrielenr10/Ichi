@@ -1,0 +1,47 @@
+---
+import logoIchi from "../assets/logo_ichi.svg"
+import Button from "./ui/Button.astro"
+
+const navItems = [
+    { label: "El método", href: "#metodo" },
+    { label: "Planes", href: "#planes" },
+    { label: "Resultado", href: "#resultado" },
+    { label: "FAQ", href: "#faq" },
+    { label: "Contacto", href: "#contacto" },
+]
+---
+
+<header class="sticky top-0 z-1 bg-white border-b border-gray-100 shadow-sm">
+    <nav class="flex justify-around items-center">
+        <img src={logoIchi.src} alt="Maktub" width="120" height="75" />
+        <ul class="flex gap-10">
+            {
+                navItems.map((item) => (
+                    <li class="font-bold">
+                        <a href={item.href}>{item.label}</a>
+                    </li>
+                ))
+            }
+        </ul>
+        <Button>Agenda una cita</Button>
+    </nav>
+</header>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const navLinks = document.querySelectorAll(".nav-link")
+
+        navLinks.forEach((link) => {
+            link.addEventListener("click", (e) => {
+                e.preventDefault()
+                const targetId = link.getAttribute("href")
+                if (targetId) {
+                    const targetSection = document.querySelector(targetId)
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: "smooth", block: "start" })
+                    }
+                }
+            })
+        })
+    })
+</script>

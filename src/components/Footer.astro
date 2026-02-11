@@ -1,0 +1,53 @@
+---
+import logoIchi from "../assets/logo_ichi.svg"
+
+const footerLinks = [
+    { label: "Inicio", href: "#inicio" },
+    { label: "Método", href: "#metodo" },
+    { label: "Planes", href: "#planes" },
+    { label: "Resultados", href: "#resultados" },
+    { label: "Contacto", href: "#contacto" },
+]
+
+const currentYear = new Date().getFullYear()
+---
+
+<footer class="px-20 py-10 bg-(--color-footer)">
+    <div class="flex justify-between items-center border-b border-(--color-contrast-light) pb-5">
+        <img src={logoIchi.src} alt="Maktub" width="120" height="75" />
+        <ul class="flex gap-10">
+            {
+                footerLinks.map((item) => (
+                    <li class="font-bold text-(--color-contrast-light)">
+                        <a href={item.href}>{item.label}</a>
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
+    <div class="flex justify-between items-center text-sm text-zinc-500 pt-5">
+        <p>© {currentYear} ICHI. Todos los derechos reservados.</p>
+        <p>Hecho con 💚 para tu transformación</p>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const footerLinks = document.querySelectorAll(".footer-link")
+
+        footerLinks.forEach((link) => {
+            if (link.getAttribute("href")?.startsWith("#")) {
+                link.addEventListener("click", (e) => {
+                    e.preventDefault()
+                    const targetId = link.getAttribute("href")
+                    if (targetId && targetId !== "#") {
+                        const targetSection = document.querySelector(targetId)
+                        if (targetSection) {
+                            targetSection.scrollIntoView({ behavior: "smooth", block: "start" })
+                        }
+                    }
+                })
+            }
+        })
+    })
+</script>

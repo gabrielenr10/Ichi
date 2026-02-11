@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
+import Header from "../components/Header.astro"
+import Hero from "../components/Hero.astro"
+import Plans from "../components/Plans.astro"
+import Features from "../components/Features.astro"
+import Method from "../components/Method.astro"
+import FAQ from "../components/FAQ.astro"
+import Footer from "../components/Footer.astro"
+---
+
+<BaseLayout title="Ichi - Tías Todoterreno" description="Método TODOTERRENO tu cambio no es casualidad">
+    <Header />
+    <main>
+        <Hero />
+        <Method />
+        <Plans />
+        <Features />
+        <FAQ />
+    </main>
+    <Footer />
+</BaseLayout>
+
+<style>
+    main {
+        overflow-x: hidden;
+    }
+</style>

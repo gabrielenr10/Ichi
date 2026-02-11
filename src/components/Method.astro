@@ -1,0 +1,77 @@
+---
+import ichi1 from "../assets/cards/ichi_1.png"
+import ichi2 from "../assets/cards/ichi_2.png"
+import ichi3 from "../assets/cards/ichi_3.png"
+import ichi4 from "../assets/cards/ichi_4.png"
+import ichiTiasTodoterreno from "../assets/cards/ichi_tias_todoterreno.png"
+import Card from "./ui/Card.astro"
+
+const cards1 = [
+    {
+        backgroundImage: ichi1.src,
+    },
+    {
+        title: "Trabajamos el cambio completo",
+        description:
+            'Entrena para potenciar tus curvas, mejorar tu metabolismo y sentirte fuerte sin miedo a "ponerte grande".',
+    },
+    {
+        backgroundImage: ichi2.src,
+    },
+]
+
+const cards2 = [
+    {
+        title: "🥑 Nutrición antiinflamatoria y sostenible",
+        description:
+            "Aprende a comer sin culpa, sin restricciones y sin vivir a dieta. Comer para vivir desinflamada y saciada",
+    },
+    {
+        backgroundImage: ichiTiasTodoterreno.src,
+    },
+    {
+        title: "🧠 Mentalidad todoterreno y acompañamiento real",
+        description:
+            "Menos ansiedad, menos picos y bajones. Cortisol controlado y confianza en ti misma y amor por tu cuerpo",
+    },
+]
+
+const cards3 = [
+    {
+        backgroundImage: ichi3.src,
+    },
+    {
+        title: "♻️ Hábitos que sí se mantienen 🧩 Educación que te acompaña toda la vida",
+        description:
+            "No te doy normas: te enseño a entender tu cuerpo, a saber qué comer, cómo entrenar y cómo adaptarlo a tu día a día sin volver a empezar de cero cada lunes. Aprendes a cuidarte en el trabajo, en casa, de viaje y en fines de semana. Sin culpa y sin perder resultados.",
+    },
+    {
+        backgroundImage: ichi4.src,
+    },
+]
+---
+
+<section class="flex flex-col">
+    <div class="flex h-94">
+        {cards1.map((card) => <Card {...card} />)}
+    </div>
+    <div class="flex h-94">
+        {cards2.map((card) => <Card {...card} />)}
+    </div>
+    <div class="flex h-94">
+        {cards3.map((card) => <Card {...card} />)}
+    </div>
+    <div id="metodo" class="pt-20 text-center bg-contrast-dark">
+        <h1 class="mb-6">Método <span class="text-primary">ICHI</span> · Tías Todoterreno</h1>
+        <p>
+            Vive desinflamada, baja grasa y construye un cuerpo fuerte y femenino.
+            <br />
+            <span class="font-bold"
+                >Aquí no solo se pierde grasa. Se gana músculo, seguridad y confianza en el cuerpo.
+            </span>
+            <br />
+            Te enseño a comer sin miedo y a entrenar fuerte de forma estratégica, para verte mejor, sentirte mejor y sostener
+            resultados.
+        </p>
+    </div>
+</section>
