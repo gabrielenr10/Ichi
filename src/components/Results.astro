@@ -1,9 +1,16 @@
 ---
-import demo from "../assets/results/demo_image.png"
 import Button from "./ui/Button.astro"
 import Slideshow from "./ui/Slideshow.astro"
 
-const images = [demo, demo, demo, demo, demo, demo, demo, demo, demo, demo, demo, demo, demo, demo]
+const imageModules = import.meta.glob<{ default: ImageMetadata }>("../assets/results/*.{jpeg,jpg,png}", { eager: true })
+
+const images: ImageMetadata[] = Object.entries(imageModules)
+    .sort(([pathA], [pathB]) => {
+        const numA = parseInt(pathA.match(/result_(\d+)/)?.[1] ?? "999", 10)
+        const numB = parseInt(pathB.match(/result_(\d+)/)?.[1] ?? "999", 10)
+        return numA - numB
+    })
+    .map(([, mod]) => mod.default)
 ---
 
 <section id="results" class="py-27 px-8 bg-contrast-light text-center">

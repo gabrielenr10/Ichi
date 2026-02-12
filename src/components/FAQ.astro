@@ -4,20 +4,48 @@ import chevronDown from "../assets/chevron_down.svg"
 
 const faqs = [
     {
-        question: "¿Cómo puedo empezar?",
-        answer: "Simplemente elige el plan que mejor se adapte a tus objetivos y completa el formulario de inscripción. Te contactaremos en menos de 24 horas para coordinar tu primera sesión.",
+        question: "¿Esto es una dieta estricta o voy a pasar hambre?",
+        answer: "No. Aquí no se pasa hambre ni se vive contando hojas de lechuga. Aprenderás a comer lo que tu cuerpo necesita para perder grasa, desinflamarte y ganar músculo sin ansiedad ni culpa.",
     },
     {
-        question: "¿Puedo cambiar de plan más adelante?",
-        answer: "Sí, puedes actualizar o modificar tu plan en cualquier momento. Te guiaremos para que la transición sea fluida y sin interrupciones.",
+        question: "¿Tengo que dejar el pan, la pasta o el chocolate?",
+        answer: "No. Aquí no demonizamos alimentos. Aprendes cuándo, cuánto y cómo comerlos para que jueguen a tu favor y no en tu contra.",
     },
     {
-        question: "¿Qué necesito para las sesiones?",
-        answer: "Solo necesitas ropa cómoda, espacio para moverte y ganas de dar lo mejor de ti. No hace falta equipo especial para comenzar.",
+        question: "¿Sirve si ya he hecho mil dietas y siempre reboto?",
+        answer: "Justamente para ti está pensada esta asesoría. Si vienes de dietas restrictivas, comer poco o vivir inflamada, este método te enseña a reparar el metabolismo, no a castigarlo otra vez.",
     },
     {
-        question: "¿Hay garantía de satisfacción?",
-        answer: "Si en las primeras dos semanas no te convences, te devolvemos el importe íntegro sin preguntas. Queremos que confíes en el proceso.",
+        question: "¿Es solo para perder peso o también para recomposición corporal?",
+        answer: "No va de bajar números sin sentido. Va de verte más fuerte, con menos grasa, más firme, menos inflamada y con mejor relación con la comida. El peso es solo una consecuencia.",
+    },
+    {
+        question: "¿Necesito entrenar todos los días o hacer cardio a muerte?",
+        answer: "No. Aquí el protagonista es el entrenamiento de fuerza bien planteado, adaptado a tu nivel y a tu vida. El cardio se usa con cabeza, no como castigo.",
+    },
+    {
+        question: "¿Y si no tengo mucho tiempo o voy muy liada?",
+        answer: "El plan se adapta a tu realidad, no al revés. Comidas sencillas, entrenos eficientes y pautas realistas para que puedas sostenerlo aunque trabajes, tengas hijos o mil cosas en la cabeza.",
+    },
+    {
+        question: "¿Esto funciona si tengo problemas de inflamación, retención o celulitis?",
+        answer: 'Sí. La alimentación y el entreno están pensados para mejorar inflamación, digestiones, retención de líquidos y calidad del tejido, no solo para "quemar calorías".',
+    },
+    {
+        question: "¿Voy a tener seguimiento o voy por mi cuenta?",
+        answer: "No estás sola. Tienes acompañamiento real, revisiones, ajustes y apoyo constante. Esto no es un PDF abandonado en una carpeta.",
+    },
+    {
+        question: "¿Qué pasa si no soy constante o tengo semanas malas?",
+        answer: "No pasa nada. Aquí no se te juzga ni se te castiga. Se ajusta, se acompaña y se sigue. La constancia se construye, no se exige.",
+    },
+    {
+        question: "¿Es solo para mujeres que ya entrenan?",
+        answer: "No.Es tanto para quien empieza de cero como para quien ya entrena pero no ve resultados o está estancada.",
+    },
+    {
+        question: "¿Qué diferencia tu asesoría de otras?",
+        answer: "Que aquí no se improvisa ni se copia-pega. Es un método personalizado, sostenible y con acompañamiento, pensado para mujeres reales que quieren resultados sin destrozarse por el camino.",
     },
 ]
 ---
@@ -27,11 +55,11 @@ const faqs = [
 
     <div class="flex flex-col justify-center max-w-7xl mx-auto">
         {
-            faqs.map((faq, index) => (
+            faqs.map((faq) => (
                 <details class="border-b border-(--color-primary-light) pt-4 pb-8 cursor-pointer">
                     <summary class="flex justify-between items-center">
                         <h4 class="">{faq.question}</h4>
-                        <span class="chevron-container bg-(--color-primary-light) rounded-sm p-2">
+                        <span class="chevron-container bg-contrast-light rounded-sm p-2">
                             <img
                                 src={chevronDown.src}
                                 alt="Toggle answer"

@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets"
+
 interface Props {
     images: ImageMetadata[]
 }
@@ -18,18 +20,9 @@ const slides = Array.from({ length: Math.ceil(images.length / IMAGES_PER_SLIDE) 
         >
             {
                 slides.map((slideImages) => (
-                    <div
-                        class="slide shrink-0 grid grid-rows-2 grid-cols-3 gap-6"
-                        style={`flex: 0 0 calc(100% / ${slides.length})`}
-                    >
+                    <div class="slide grid grid-cols-3 gap-6" style={`flex: 0 0 calc(100% / ${slides.length})`}>
                         {slideImages.map((image: ImageMetadata, index: number) => (
-                            <img
-                                src={image.src}
-                                alt={`Resultado ${index + 1}`}
-                                width={image.width}
-                                height={image.height}
-                                class="w-full h-full object-cover"
-                            />
+                            <Image src={image} alt={`Resultado ${index + 1}`} class="w-full h-full object-cover" />
                         ))}
                     </div>
                 ))
