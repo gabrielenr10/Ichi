@@ -12,22 +12,24 @@ const footerLinks = [
 const currentYear = new Date().getFullYear()
 ---
 
-<footer class="px-20 py-10 bg-(--color-footer)">
-    <div class="flex justify-between items-center border-b border-(--color-contrast-light) pb-5">
-        <img src={logoIchi.src} alt="Maktub" width="120" height="75" />
-        <ul class="flex gap-10">
-            {
-                footerLinks.map((item) => (
-                    <li class="font-bold text-(--color-contrast-light)">
-                        <a href={item.href}>{item.label}</a>
-                    </li>
-                ))
-            }
-        </ul>
-    </div>
-    <div class="flex justify-between items-center text-sm text-zinc-500 pt-5">
-        <p>© {currentYear} ICHI. Todos los derechos reservados.</p>
-        <p>Hecho con 💚 para tu transformación</p>
+<footer class="px-8 py-10 bg-footer">
+    <div class="max-w-[1440px] mx-auto">
+        <div class="hidden md:flex justify-between items-center border-b border-contrast-light pb-5">
+            <img src={logoIchi.src} alt="Maktub" width="120" height="75" />
+            <ul class="flex gap-10">
+                {
+                    footerLinks.map((item) => (
+                        <li class="font-bold text-contrast-light">
+                            <a href={item.href}>{item.label}</a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+        <div class="flex justify-between items-center text-sm text-zinc-500 pt-5">
+            <p>© {currentYear} ICHI. Todos los derechos reservados.</p>
+            <p>Hecho con 💚 para tu transformación</p>
+        </div>
     </div>
 </footer>
 
