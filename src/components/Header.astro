@@ -12,9 +12,9 @@ const navItems = [
 ---
 
 <header class="sticky top-0 z-1 bg-white border-b border-gray-100 shadow-sm">
-    <nav class="flex justify-around items-center">
+    <nav class="flex justify-between items-center px-8">
         <img src={logoIchi.src} alt="Maktub" width="120" height="75" />
-        <ul class="flex gap-10">
+        <ul class="hidden lg:flex gap-10">
             {
                 navItems.map((item) => (
                     <li class="font-bold">
