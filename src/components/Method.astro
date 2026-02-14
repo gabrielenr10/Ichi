@@ -6,7 +6,7 @@ import ichi4 from "../assets/cards/ichi_4.png"
 import ichiTiasTodoterreno from "../assets/cards/ichi_tias_todoterreno.png"
 import Card from "./ui/Card.astro"
 
-const cards1 = [
+const cards = [
     {
         backgroundImage: ichi1.src,
     },
@@ -18,9 +18,6 @@ const cards1 = [
     {
         backgroundImage: ichi2.src,
     },
-]
-
-const cards2 = [
     {
         title: "🥑 Nutrición antiinflamatoria y sostenible",
         description:
@@ -34,9 +31,6 @@ const cards2 = [
         description:
             "Menos ansiedad, menos picos y bajones. Cortisol controlado y confianza en ti misma y amor por tu cuerpo",
     },
-]
-
-const cards3 = [
     {
         backgroundImage: ichi3.src,
     },
@@ -51,17 +45,11 @@ const cards3 = [
 ]
 ---
 
-<section class="flex flex-col">
-    <div class="flex h-94">
-        {cards1.map((card) => <Card {...card} />)}
+<section>
+    <div class="grid lg:grid-cols-3">
+        {cards.map((card) => <Card {...card} />)}
     </div>
-    <div class="flex h-94">
-        {cards2.map((card) => <Card {...card} />)}
-    </div>
-    <div class="flex h-94">
-        {cards3.map((card) => <Card {...card} />)}
-    </div>
-    <div id="metodo" class="pt-20 text-center bg-contrast-dark">
+    <div id="metodo" class="pt-20 px-8 text-center bg-contrast-dark">
         <h1 class="mb-6">Método <span class="text-primary">ICHI</span> · Tías Todoterreno</h1>
         <p>
             Vive desinflamada, baja grasa y construye un cuerpo fuerte y femenino.
