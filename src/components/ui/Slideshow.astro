@@ -1,26 +1,38 @@
 ---
-import { Image } from "astro:assets"
+import { Image, getImage } from "astro:assets"
 
 interface Props {
     images: ImageMetadata[]
 }
 
 const { images } = Astro.props
-const IMAGES_PER_SLIDE = 6
-const slides = Array.from({ length: Math.ceil(images.length / IMAGES_PER_SLIDE) }, (_, i) =>
-    images.slice(i * IMAGES_PER_SLIDE, (i + 1) * IMAGES_PER_SLIDE)
+const IMAGES_PER_SLIDE_DESKTOP = 6
+const IMAGES_PER_SLIDE_MOBILE = 4
+const BREAKPOINT = 1024
+
+// Build image data with resolved URLs for client-side dynamic slides
+const imageData = await Promise.all(
+    images.map(async (img, i) => {
+        const result = await getImage({ src: img, width: 600, height: 600 })
+        return { src: result.src, alt: `Resultado ${i + 1}` }
+    })
+)
+
+// Initial slides for desktop (used for SSR/hydration, script will rebuild on client)
+const initialSlides = Array.from({ length: Math.ceil(images.length / IMAGES_PER_SLIDE_DESKTOP) }, (_, i) =>
+    images.slice(i * IMAGES_PER_SLIDE_DESKTOP, (i + 1) * IMAGES_PER_SLIDE_DESKTOP)
 )
 ---
 
-<div class="slideshow max-w-7xl mx-auto px-4" data-slides={slides.length}>
+<div class="slideshow max-w-7xl mx-auto px-4" data-images={JSON.stringify(imageData)} data-breakpoint={BREAKPOINT}>
     <div class="relative overflow-hidden">
-        <div
-            class="slides-wrapper flex transition-transform duration-500 ease-out"
-            style={`width: ${slides.length * 100}%`}
-        >
+        <div class="slides-wrapper flex transition-transform duration-500 ease-out">
             {
-                slides.map((slideImages) => (
-                    <div class="slide grid grid-cols-3 gap-6" style={`flex: 0 0 calc(100% / ${slides.length})`}>
+                initialSlides.map((slideImages) => (
+                    <div
+                        class="slide grid grid-cols-2 lg:grid-cols-3 gap-6"
+                        style={`flex: 0 0 calc(100% / ${initialSlides.length})`}
+                    >
                         {slideImages.map((image: ImageMetadata, index: number) => (
                             <Image src={image} alt={`Resultado ${index + 1}`} class="w-full h-full object-cover" />
                         ))}
@@ -30,7 +42,7 @@ const slides = Array.from({ length: Math.ceil(images.length / IMAGES_PER_SLIDE) 
         </div>
     </div>
 
-    <div class={`flex items-center justify-center gap-4 mt-6 ${slides.length <= 1 ? "hidden" : ""}`}>
+    <div class="slideshow-controls flex items-center justify-center gap-4 mt-6">
         <button
             type="button"
             class="slideshow-prev w-6 h-6 text-primary disabled:opacity-40 disabled:cursor-not-allowed"
@@ -52,7 +64,7 @@ const slides = Array.from({ length: Math.ceil(images.length / IMAGES_PER_SLIDE) 
         </button>
         <div class="slideshow-dots flex gap-2" role="tablist" aria-label="Seleccionar slide">
             {
-                slides.map((_, i) => (
+                initialSlides.map((_, i) => (
                     <button
                         type="button"
                         class="slideshow-dot w-2.5 h-2.5 rounded-full border-2 border-primary transition-all duration-300 aria-selected:border-[#888787] aria-selected:scale-125"
@@ -86,39 +98,120 @@ const slides = Array.from({ length: Math.ceil(images.length / IMAGES_PER_SLIDE) 
 </div>
 
 <script>
+    const BREAKPOINT = 1024
+    const IMAGES_PER_SLIDE_DESKTOP = 6
+    const IMAGES_PER_SLIDE_MOBILE = 4
+
+    function getImagesPerSlide(): number {
+        return typeof window !== "undefined" && window.innerWidth < BREAKPOINT
+            ? IMAGES_PER_SLIDE_MOBILE
+            : IMAGES_PER_SLIDE_DESKTOP
+    }
+
+    function buildSlides(images: { src: string; alt: string }[], perSlide: number) {
+        const slides: { src: string; alt: string }[][] = []
+        for (let i = 0; i < images.length; i += perSlide) {
+            slides.push(images.slice(i, i + perSlide))
+        }
+        return slides
+    }
+
     function initSlideshow(container: HTMLElement) {
-        const slidesCount = parseInt(container.dataset.slides ?? "1", 10)
+        const imagesJson = container.dataset.images
+        if (!imagesJson) return
+
+        const images: { src: string; alt: string }[] = JSON.parse(imagesJson)
         const wrapper = container.querySelector(".slides-wrapper") as HTMLElement
+        const controlsEl = container.querySelector(".slideshow-controls") as HTMLElement
         const prevBtn = container.querySelector(".slideshow-prev") as HTMLButtonElement
         const nextBtn = container.querySelector(".slideshow-next") as HTMLButtonElement
-        const dots = container.querySelectorAll(".slideshow-dot")
+        const dotsContainer = container.querySelector(".slideshow-dots") as HTMLElement
 
-        if (!wrapper || slidesCount <= 1) return
+        if (!wrapper || !controlsEl || !dotsContainer) return
 
         let currentSlide = 0
+        let slides: { src: string; alt: string }[][] = []
+        let resizeTimeout: ReturnType<typeof setTimeout>
+
+        function renderSlides() {
+            const perSlide = getImagesPerSlide()
+            slides = buildSlides(images, perSlide)
+
+            wrapper.innerHTML = ""
+            wrapper.style.width = `${slides.length * 100}%`
+
+            slides.forEach((slideImages) => {
+                const slide = document.createElement("div")
+                slide.className = "slide grid grid-cols-2 lg:grid-cols-3 gap-6"
+                slide.style.flex = `0 0 calc(100% / ${slides.length})`
+                slideImages.forEach((img) => {
+                    const imgEl = document.createElement("img")
+                    imgEl.src = img.src
+                    imgEl.alt = img.alt
+                    imgEl.className = "w-full h-full object-cover"
+                    slide.appendChild(imgEl)
+                })
+                wrapper.appendChild(slide)
+            })
+
+            renderDots()
+            currentSlide = Math.min(currentSlide, Math.max(0, slides.length - 1))
+            goToSlide(currentSlide)
+            updateControlsVisibility()
+        }
+
+        function renderDots() {
+            dotsContainer.innerHTML = ""
+            slides.forEach((_, i) => {
+                const dot = document.createElement("button")
+                dot.type = "button"
+                dot.className =
+                    "slideshow-dot w-2.5 h-2.5 rounded-full border-2 border-primary transition-all duration-300 aria-selected:border-[#888787] aria-selected:scale-125"
+                dot.setAttribute("role", "tab")
+                dot.setAttribute("aria-selected", String(i === currentSlide))
+                dot.setAttribute("aria-label", `Ir al slide ${i + 1}`)
+                dot.addEventListener("click", () => goToSlide(i))
+                dotsContainer.appendChild(dot)
+            })
+        }
+
+        function updateControlsVisibility() {
+            controlsEl.classList.toggle("hidden", slides.length <= 1)
+        }
 
         function goToSlide(index: number) {
-            currentSlide = Math.max(0, Math.min(index, slidesCount - 1))
-            const offset = (currentSlide / slidesCount) * 100
+            if (slides.length === 0) return
+            currentSlide = Math.max(0, Math.min(index, slides.length - 1))
+            const offset = (currentSlide / slides.length) * 100
             wrapper.style.transform = `translateX(-${offset}%)`
             updateControls()
         }
 
         function updateControls() {
+            const dots = dotsContainer.querySelectorAll(".slideshow-dot")
             prevBtn?.toggleAttribute("disabled", currentSlide === 0)
-            nextBtn?.toggleAttribute("disabled", currentSlide === slidesCount - 1)
+            nextBtn?.toggleAttribute("disabled", currentSlide === slides.length - 1)
             dots.forEach((dot, i) => {
                 dot.setAttribute("aria-selected", String(i === currentSlide))
             })
         }
 
+        function handleResize() {
+            clearTimeout(resizeTimeout)
+            resizeTimeout = setTimeout(() => {
+                const perSlide = getImagesPerSlide()
+                const newSlides = buildSlides(images, perSlide)
+                if (newSlides.length !== slides.length) {
+                    renderSlides()
+                }
+            }, 150)
+        }
+
         prevBtn?.addEventListener("click", () => goToSlide(currentSlide - 1))
         nextBtn?.addEventListener("click", () => goToSlide(currentSlide + 1))
-        dots.forEach((dot, i) => {
-            dot.addEventListener("click", () => goToSlide(i))
-        })
 
-        updateControls()
+        renderSlides()
+        window.addEventListener("resize", handleResize)
     }
 
     document.querySelectorAll(".slideshow").forEach((el) => initSlideshow(el as HTMLElement))
