@@ -64,7 +64,7 @@ const plans = [
                         ))}
                     </ul>
                     <p class="mt-2">{plan.closing}</p>
-                    <Button class="mt-4 bg-transparent border-2 border-primary text-primary">
+                    <Button class="plan-button mt-4 ">
                         <a
                             href={`https://wa.me/+34647559174/?text=${encodeURIComponent(plan.whatsappMessage)}`}
                             target="_blank"
@@ -78,3 +78,11 @@ const plans = [
         }
     </div>
 </section>
+
+<style is:global>
+    .plan-button {
+        background: transparent;
+        color: var(--color-primary);
+        border: 2px solid var(--color-primary);
+    }
+</style>
