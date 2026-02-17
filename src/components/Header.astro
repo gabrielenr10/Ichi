@@ -1,5 +1,5 @@
 ---
-import logoIchi from "../assets/logo_ichi.svg"
+import logoIchi from "../assets/logo_ichi_header.svg"
 import Button from "./ui/Button.astro"
 const whatsappMessage = "Hola, quiero agendar una cita para recibir orientación y saber qué plan me conviene."
 const whatsappHref = `https://wa.me/+34647559174/?text=${encodeURIComponent(whatsappMessage)}`
@@ -7,14 +7,13 @@ const whatsappHref = `https://wa.me/+34647559174/?text=${encodeURIComponent(what
 const navItems = [
     { label: "El método", href: "#metodo" },
     { label: "Planes", href: "#planes" },
-    { label: "Resultado", href: "#resultado" },
+    { label: "Resultados", href: "#resultados" },
     { label: "FAQ", href: "#faq" },
-    { label: "Contacto", href: "#contacto" },
 ]
 ---
 
 <header class="sticky top-0 z-1 bg-white border-b border-gray-100 shadow-sm">
-    <nav class="flex justify-between items-center px-8 max-w-[1440px] mx-auto">
+    <nav class="flex justify-between items-center px-8 py-2 max-w-[1440px] mx-auto">
         <img src={logoIchi.src} alt="Maktub" width="120" height="75" />
         <ul class="hidden lg:flex gap-10">
             {
@@ -30,22 +29,3 @@ const navItems = [
         </Button>
     </nav>
 </header>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const navLinks = document.querySelectorAll(".nav-link")
-
-        navLinks.forEach((link) => {
-            link.addEventListener("click", (e) => {
-                e.preventDefault()
-                const targetId = link.getAttribute("href")
-                if (targetId) {
-                    const targetSection = document.querySelector(targetId)
-                    if (targetSection) {
-                        targetSection.scrollIntoView({ behavior: "smooth", block: "start" })
-                    }
-                }
-            })
-        })
-    })
-</script>

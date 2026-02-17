@@ -1,12 +1,11 @@
 ---
-import logoIchi from "../assets/logo_ichi.svg"
+import logoIchi from "../assets/logo_ichi_footer.svg"
 
 const footerLinks = [
     { label: "Inicio", href: "#inicio" },
     { label: "Método", href: "#metodo" },
     { label: "Planes", href: "#planes" },
     { label: "Resultados", href: "#resultados" },
-    { label: "Contacto", href: "#contacto" },
 ]
 
 const currentYear = new Date().getFullYear()
@@ -32,24 +31,3 @@ const currentYear = new Date().getFullYear()
         </div>
     </div>
 </footer>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const footerLinks = document.querySelectorAll(".footer-link")
-
-        footerLinks.forEach((link) => {
-            if (link.getAttribute("href")?.startsWith("#")) {
-                link.addEventListener("click", (e) => {
-                    e.preventDefault()
-                    const targetId = link.getAttribute("href")
-                    if (targetId && targetId !== "#") {
-                        const targetSection = document.querySelector(targetId)
-                        if (targetSection) {
-                            targetSection.scrollIntoView({ behavior: "smooth", block: "start" })
-                        }
-                    }
-                })
-            }
-        })
-    })
-</script>
