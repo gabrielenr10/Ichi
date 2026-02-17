@@ -1,6 +1,8 @@
 ---
 import logoIchi from "../assets/logo_ichi.svg"
 import Button from "./ui/Button.astro"
+const whatsappMessage = "Hola, quiero agendar una cita para recibir orientación y saber qué plan me conviene."
+const whatsappHref = `https://wa.me/+34647559174/?text=${encodeURIComponent(whatsappMessage)}`
 
 const navItems = [
     { label: "El método", href: "#metodo" },
@@ -23,7 +25,9 @@ const navItems = [
                 ))
             }
         </ul>
-        <Button>Agenda una cita</Button>
+        <Button>
+            <a href={whatsappHref} target="_blank" rel="noopener noreferrer">Agenda una cita</a>
+        </Button>
     </nav>
 </header>
 

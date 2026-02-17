@@ -1,5 +1,7 @@
 ---
 import Button from "./ui/Button.astro"
+const whatsappMessage = "Hola, quiero agendar una cita para conocer el método Todoterreno y empezar mi cambio."
+const whatsappHref = `https://wa.me/+34647559174/?text=${encodeURIComponent(whatsappMessage)}`
 
 const benefits = [
     {
@@ -37,6 +39,8 @@ const benefits = [
             nutrición antiinflamatoria.
         </p>
 
-        <Button class="mt-9">Agenda una cita</Button>
+        <Button class="mt-9">
+            <a href={whatsappHref} target="_blank" rel="noopener noreferrer">Agenda una cita</a>
+        </Button>
     </div>
 </section>

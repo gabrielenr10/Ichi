@@ -1,9 +1,13 @@
 ---
+import Button from "./ui/Button.astro"
+
 const plans = [
     {
         name: "plan 3 meses - trimestral",
         price: undefined,
         description: "Empieza a desinflamarte, perder grasa y activar músculo",
+        whatsappMessage:
+            "Hola, me interesa el plan de 3 meses. Quiero saber más sobre cómo funciona y si es adecuado para mí.",
         features: [
             "Reducir inflamación y retención",
             "Empezar a perder grasa sin pasar hambre",
@@ -16,6 +20,8 @@ const plans = [
         name: "plan 6 meses - semestral",
         price: undefined,
         description: "Pierde grasa, mejora celulitis y construye un cuerpo más fuerte",
+        whatsappMessage:
+            "Hola, me interesa el plan de 6 meses. Quiero saber más sobre resultados esperados y seguimiento.",
         features: [
             "Resultados visibles y estables",
             "Ganar músculo mientras bajas % graso",
@@ -28,6 +34,8 @@ const plans = [
         name: "plan 12 meses - anual",
         price: undefined,
         description: "Cuerpazo, fuerza y educación para toda la vida",
+        whatsappMessage:
+            "Hola, me interesa el plan de 12 meses. Quiero saber más sobre el proceso completo y acompañamiento anual.",
         features: [
             "Un cambio físico completo y sostenible",
             "Construir músculo de verdad",
@@ -56,9 +64,15 @@ const plans = [
                         ))}
                     </ul>
                     <p class="mt-2">{plan.closing}</p>
-                    <button class="border-2 border-primary rounded-3xl px-4 py-3 mt-4 text-primary font-bold">
-                        Saber más
-                    </button>
+                    <Button class="mt-4 bg-transparent border-2 border-primary text-primary">
+                        <a
+                            href={`https://wa.me/+34647559174/?text=${encodeURIComponent(plan.whatsappMessage)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Saber más
+                        </a>
+                    </Button>
                 </div>
             ))
         }

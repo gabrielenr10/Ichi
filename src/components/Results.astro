@@ -1,6 +1,8 @@
 ---
 import Button from "./ui/Button.astro"
 import Slideshow from "./ui/Slideshow.astro"
+const whatsappMessage = "Hola, quiero agendar una cita para evaluar mi caso y empezar con un plan personalizado."
+const whatsappHref = `https://wa.me/+34647559174/?text=${encodeURIComponent(whatsappMessage)}`
 
 const imageModules = import.meta.glob<{ default: ImageMetadata }>("../assets/results/*.{jpeg,jpg,png}", { eager: true })
 
@@ -22,5 +24,7 @@ const images: ImageMetadata[] = Object.entries(imageModules)
         </p>
     </div>
     <Slideshow images={images} />
-    <Button class="mx-auto mt-12">Agenda una cita</Button>
+    <Button class="mx-auto mt-12">
+        <a href={whatsappHref} target="_blank" rel="noopener noreferrer">Agenda una cita</a>
+    </Button>
 </section>
