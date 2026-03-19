@@ -1,0 +1,73 @@
+---
+import Button from "./ui/Button.astro"
+import TestimonialSlideshow from "./ui/TestimonialSlideshow.astro"
+
+const whatsappMessage = "Hola, quiero agendar una cita para evaluar mi caso y empezar con un plan personalizado."
+const whatsappHref = `https://wa.me/+34647559174/?text=${encodeURIComponent(whatsappMessage)}`
+
+const imageModules = import.meta.glob<{ default: ImageMetadata }>("../assets/testimonials/*.{jpeg,jpg,png,webp}", {
+    eager: true,
+})
+
+const imagesByName = Object.fromEntries(
+    Object.entries(imageModules).map(([path, mod]) => {
+        const fileName = path.split("/").pop() ?? path
+        return [fileName, mod.default]
+    }),
+)
+
+const testimonials = [
+    {
+        date: "May 8, 2020",
+        title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci lectus maecenas. Suspendisse sed magna eget nibh in turpis. Consequat duis diam lacus arcu. Faucibus venenatis felis id augue sit cursus pellentesque enim blandit.",
+        imageFileName: "testimonial_1.png",
+    },
+    {
+        date: "May 8, 2020",
+        title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci lectus maecenas. Suspendisse sed magna eget nibh in turpis. Consequat duis diam lacus arcu. Faucibus venenatis felis id augue sit cursus pellentesque enim blandit.",
+        imageFileName: "testimonial_2.png",
+    },
+    {
+        date: "May 8, 2020",
+        title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci lectus maecenas. Suspendisse sed magna eget nibh in turpis. Consequat duis diam lacus arcu. Faucibus venenatis felis id augue sit cursus pellentesque enim blandit.",
+        imageFileName: "testimonial_3.png",
+    },
+    {
+        date: "May 8, 2020",
+        title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci lectus maecenas. Suspendisse sed magna eget nibh in turpis. Consequat duis diam lacus arcu. Faucibus venenatis felis id augue sit cursus pellentesque enim blandit.",
+        imageFileName: "testimonial_4.png",
+    },
+    {
+        date: "May 8, 2020",
+        title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci lectus maecenas. Suspendisse sed magna eget nibh in turpis. Consequat duis diam lacus arcu. Faucibus venenatis felis id augue sit cursus pellentesque enim blandit.",
+        imageFileName: "testimonial_5.png",
+    },
+].map((testimonial) => ({
+    ...testimonial,
+    imagePath: imagesByName[testimonial.imageFileName],
+}))
+---
+
+<section id="testimonios" class="py-27 px-8 bg-contrast-light text-center">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="mb-6">¿Qué opinan nuestros clientes?</h1>
+        <p class="text-2xl mb-12">
+            Todos los planes pueden contratarse a <span class="font-bold">3, 6 o 12 meses</span>. Empezamos con
+            diagnóstico y entramos en el nivel que encaje con tu situación.
+        </p>
+    </div>
+    <TestimonialSlideshow testimonials={testimonials} />
+    <Button class="mx-auto mt-12">
+        <a href={whatsappHref} target="_blank" rel="noopener noreferrer">Agenda una cita</a>
+    </Button>
+</section>
