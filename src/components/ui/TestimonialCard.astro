@@ -1,19 +1,15 @@
 ---
 import { Image } from "astro:assets"
 import ichi1 from "../../assets/cards/ichi_1.png"
+import type { Testimonial } from "../../types/testimonial"
 
-interface Props {
-    date?: string
-    title?: string
-    description?: string
-    imagePath?: ImageMetadata
-}
+type Props = Testimonial
 
-const { date = "May 03, 2025", title = "Title", description = "Description", imagePath } = Astro.props as Props
+const { date = "", title = "Title", description = "Description", imagePath } = Astro.props as Props
 ---
 
 <div class="flex flex-col rounded-xl overflow-hidden sm:flex-row sm:h-75 max-w-3xl mx-auto">
-    <Image src={imagePath ?? ichi1} alt="imagen testimonio" class="sm:w-62" />
+    <Image src={imagePath ?? ichi1} alt="imagen testimonio" class="sm:w-62 object-cover" />
     <div class="pl-10 pr-8 py-8 flex flex-col gap-3 flex-1 text-left bg-white">
         <p class="text-xs text-gray-500">{date}</p>
         <h3>{title}</h3>

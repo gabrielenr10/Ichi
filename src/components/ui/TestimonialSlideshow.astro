@@ -1,12 +1,6 @@
 ---
 import TestimonialCard from "./TestimonialCard.astro"
-
-interface Testimonial {
-    date?: string
-    title?: string
-    description?: string
-    imagePath?: ImageMetadata
-}
+import type { Testimonial } from "../../types/testimonial"
 
 interface Props {
     testimonials: Testimonial[]
